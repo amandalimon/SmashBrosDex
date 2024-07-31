@@ -19,23 +19,19 @@ const Home = ({ characters }: HomeProps) => {
   const selectedCharacterData = characters?.find(character => character.fighterNumber === selectedCharacter);
 
   return (
-    <div className="h-screen overflow-hidden">
-
-      <h1 className="text-4xl font-extrabold p-2">
-        Super Smash Bros Fighters
-      </h1>
-
-      <div className="flex flex-col justify-between">
+    <>
+      <div className="h-screen flex flex-col justify-between overflow-hidden">
         {selectedCharacterData && (
           <SelectedCharacter character={selectedCharacterData} />
         )}
+
         <CharacterList
           characters={characters}
           selectedCharacter={selectedCharacter}
           onCharacterSelect={handleCharacterSelection}
         />
       </div>
-    </div>
+    </>
   );
 };
 

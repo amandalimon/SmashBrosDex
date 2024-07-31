@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      skew: {
+        '-10': '-10deg',
+        '10': '10deg',
+      },
+    },
   },
   plugins: [],
 }

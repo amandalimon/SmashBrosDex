@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { GetServerSideProps } from "next";
+import { useCharacter } from "@/hooks/useCharacters";
 import { fetchCharacters } from "@/services/apiService";
 import { CharacterList } from "@/components/CharacterList";
 import { SelectedCharacter } from "@/components/SelectedCharacter";
@@ -10,13 +10,7 @@ interface HomeProps {
 }
 
 const Home = ({ characters }: HomeProps) => {
-  const [selectedCharacter, setSelectedCharacter] = useState<string>("70");
-
-  const handleCharacterSelection = (id: string) => {
-    setSelectedCharacter(id);
-  };
-
-  const selectedCharacterData = characters?.find(character => character.fighterNumber === selectedCharacter);
+  const { selectedCharacter, selectedCharacterData, handleCharacterSelection } = useCharacter(characters);
 
   return (
     <>
@@ -36,10 +30,17 @@ const Home = ({ characters }: HomeProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const characters = await fetchCharacters();
-  return {
-    props: { characters },
-  };
+  try {
+    const characters = await fetchCharacters();
+    return {
+      props: { characters },
+    };
+  } catch (error) {
+    console.error("Failed to fetch characters", error);
+    return {
+      props: { characters: [] },
+    };
+  }
 };
 
 export default Home;
